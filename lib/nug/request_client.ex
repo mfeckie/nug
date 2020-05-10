@@ -16,8 +16,8 @@ defmodule Nug.RequestClient do
       Tesla.Middleware.Logger,
       Tesla.Middleware.Compression,
       {Tesla.Middleware.Headers, headers},
-      Tesla.Middleware.KeepRequest,
-      {Nug.RequestInterceptor, intercept_options}
+      {Nug.RequestInterceptor, intercept_options},
+      Tesla.Middleware.KeepRequest
     ]
 
     Tesla.client(middleware, Tesla.Adapter.Mint)
@@ -34,7 +34,7 @@ defmodule Nug.RequestInterceptor do
 
     qualified_filename = Path.join(["test", "fixtures", filename])
 
-    case File.read(filename) do
+    case File.read(qualified_filename) do
       {:ok, json} ->
         file_to_tesla(json)
 
@@ -56,7 +56,7 @@ defmodule Nug.RequestInterceptor do
     with {:ok, raw} <- Jason.decode(json, keys: :atoms),
          normalized <- normalize(raw),
          struct <- struct(Tesla.Env, normalized) do
-      {:ok, struct}
+      Tesla.run(struct, [])
     end
   end
 
