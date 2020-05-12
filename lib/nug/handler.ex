@@ -1,14 +1,24 @@
 defmodule Nug.Handler do
-  @enforce_keys [:matchers, :upstream_base_url, :request_filename]
-  defstruct [:port, :socket, :ref, :matchers, :upstream_base_url, :listen_ip, :request_filename]
+  @enforce_keys [:upstream_url, :recording_file]
+  defstruct [
+    :port,
+    :pid,
+    :socket,
+    :ref,
+    :upstream_url,
+    :listen_ip,
+    :recording_file,
+    recordings: []
+  ]
 
   @type t :: %__MODULE__{
-    port: integer(),
-    socket: port(),
-    ref: reference(),
-    matchers: list(%Nug.Matcher{}),
-    upstream_base_url: String.t(),
-    listen_ip: tuple(),
-    request_filename: String.t()
-  }
+          pid: pid(),
+          port: integer(),
+          socket: port(),
+          ref: reference(),
+          upstream_url: String.t(),
+          listen_ip: tuple(),
+          recording_file: String.t(),
+          recordings: [%Nug.Recording{}]
+        }
 end
