@@ -1,3 +1,4 @@
+# TODO -> Move to own file
 require Protocol
 Protocol.derive(Jason.Encoder, Tesla.Env, except: [:__client__])
 
@@ -9,6 +10,7 @@ defimpl Jason.Encoder, for: Tuple do
   end
 end
 
+# TODO -> Move to own file
 defmodule Nug.RequestClient do
   def new(headers \\ [], intercept_options)
       when is_list(intercept_options) do
@@ -24,6 +26,7 @@ defmodule Nug.RequestClient do
   end
 end
 
+# TODO -> Move to own file
 defmodule Nug.RequestInterceptor do
   @behaviour Tesla.Middleware
 
