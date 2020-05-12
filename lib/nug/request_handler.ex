@@ -20,17 +20,22 @@ defmodule Nug.RequestHandler do
     GenServer.call(pid, :config)
   end
 
+  def listen_address(pid) do
+    GenServer.call(pid, :listen_address)
+  end
+
   defp do_up(ref, port, handler) do
     {:ok, socket} = :ranch_tcp.listen(so_reuseport() ++ [ip: listen_ip(), port: port])
 
     handler =
       struct(handler, %{
-      port: port,
-      ref: make_ref(),
-      socket: socket
-    })
+        port: port,
+        ref: make_ref(),
+        socket: socket,
+        listen_ip: listen_ip()
+      })
 
-    plug_options = [handler: handler]
+    plug_options = [handler: handler, timeout: 10_000]
 
     cowboy_options = [
       ref: ref,
@@ -40,7 +45,7 @@ defmodule Nug.RequestHandler do
 
     {:ok, _pid} = Plug.Cowboy.http(Nug.RequestServer, plug_options, cowboy_options)
 
-    plug_options
+    handler
   end
 
   defp get_port(port \\ 0) do
@@ -70,5 +75,11 @@ defmodule Nug.RequestHandler do
 
   def handle_call(:config, _from, state) do
     {:reply, state, state}
+  end
+
+  def handle_call(:listen_address, _from, %Nug.Handler{listen_ip: ip, port: port} = state) do
+    string_ip = Tuple.to_list(ip) |> Enum.join(".")
+    listen_address = string_ip <> ":#{port}"
+    {:reply, listen_address, state}
   end
 end
