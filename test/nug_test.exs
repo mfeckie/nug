@@ -30,4 +30,21 @@ defmodule NugTest do
              ["req_body", nil]
            ]
   end
+
+  test "Takes original URL to set up proxy" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        matchers: [],
+        upstream_base_url: "https://duckduckgo.com",
+        request_filename: "test.json"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response} = Tesla.get(client, "/foo/bar/baz", [query: [q: "hello"]])
+
+    assert response.status == 200
+  end
 end
