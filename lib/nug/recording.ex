@@ -7,7 +7,7 @@ defmodule Nug.Recording do
           response: %Tesla.Env{}
         }
 
-  def find(env, %Nug.Handler{recordings: []}) do
+  def find(_env, %Nug.Handler{recordings: []}) do
     nil
   end
 
