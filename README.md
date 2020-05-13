@@ -12,6 +12,8 @@ def deps do
 end
 ```
 
+Documentation [here](https://hexdocs.pm/nug).
+
 ## Disclaimer
 
 This package is a work in progress.  If you choose to use it, I am unable to provide support, though I'm happy to look at an issues that may be filed.
