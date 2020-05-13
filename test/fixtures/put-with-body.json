@@ -1,0 +1,49 @@
+[
+  {
+    "request": null,
+    "response": {
+      "__module__": "Elixir.Tesla",
+      "body": "{\"args\":{},\"data\":{},\"files\":{},\"form\":{},\"headers\":{\"x-forwarded-proto\":\"https\",\"x-forwarded-port\":\"443\",\"host\":\"postman-echo.com\",\"x-amzn-trace-id\":\"Root=1-5ebb7d95-dc51099642c14d148d5566d0\",\"content-length\":\"14\",\"user-agent\":\"mint/1.0.0\"},\"json\":null,\"url\":\"https://postman-echo.com/put/\"}",
+      "headers": [
+        [
+          "date",
+          "Wed, 13 May 2020 04:54:45 GMT"
+        ],
+        [
+          "content-type",
+          "application/json; charset=utf-8"
+        ],
+        [
+          "content-length",
+          "292"
+        ],
+        [
+          "etag",
+          "W/\"124-NVWNdW3wfs1dfMM+iiYFhuY9iCg\""
+        ],
+        [
+          "vary",
+          "Accept-Encoding"
+        ],
+        [
+          "set-cookie",
+          "sails.sid=s%3A4xhmYR2B_KWuqqKYplmUuZ6nD_1FDPTa.jhx7JZZFgmk36EXw%2BN%2B8ID56BcZYRsdeJkUXXeR3SWs; Path=/; HttpOnly"
+        ]
+      ],
+      "method": "put",
+      "opts": [
+        [
+          "req_headers",
+          []
+        ],
+        [
+          "req_body",
+          "{\"test\":\"PUT\"}"
+        ]
+      ],
+      "query": [],
+      "status": 200,
+      "url": "https://postman-echo.com/put/"
+    }
+  }
+]
