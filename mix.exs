@@ -23,8 +23,9 @@ defmodule Nug.MixProject do
   defp deps do
     [
       {:credo, "1.4.0", only: [:dev, :test], runtime: false},
+      {:ex_doc, "0.22.0", only: :dev, runtime: false},
       {:plug_cowboy, "2.2.1"},
-      {:cowlib, "2.3.0", override: true},
+      {:cowlib, "2.8.0"},
       {:jason, "1.2.1"},
       {:tesla, "1.3.2"},
       {:mint, "1.0.0"},
