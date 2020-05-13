@@ -10,7 +10,7 @@ defmodule Nug.RequestServer do
   end
 
   def do_request(%Plug.Conn{method: method} = conn, %Nug.Handler{} = handler) do
-    client = Nug.RequestClient.new(handler: handler, conn: conn)
+    client = Nug.RequestClient.new(conn.req_headers, handler: handler, conn: conn)
 
     url = build_url(conn, handler.upstream_url)
 
