@@ -16,7 +16,6 @@ defmodule Nug.RequestClient do
       when is_list(intercept_options) do
     middleware = [
       Tesla.Middleware.Logger,
-      Tesla.Middleware.Compression,
       {Tesla.Middleware.Headers, headers},
       {Nug.RequestInterceptor, intercept_options},
       Tesla.Middleware.KeepRequest
