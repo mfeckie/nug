@@ -1,5 +1,5 @@
 defmodule Nug.RequestHandler do
-  use GenServer
+  use GenServer, restart: :transient
 
   def start_link(%Nug.Handler{} = opts) do
     GenServer.start_link(__MODULE__, opts)
