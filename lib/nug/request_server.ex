@@ -10,9 +10,9 @@ defmodule Nug.RequestServer do
   end
 
   def do_request(%Plug.Conn{method: method} = conn, %Nug.Handler{} = handler) do
-    client = Nug.RequestClient.new(filename: handler.request_filename)
+    client = Nug.RequestClient.new(handler: handler, conn: conn)
 
-    url = build_url(conn, handler.upstream_base_url)
+    url = build_url(conn, handler.upstream_url)
 
     case method do
       "GET" ->
