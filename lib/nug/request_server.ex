@@ -19,6 +19,8 @@ defmodule Nug.RequestServer do
         do_get(client, conn, url)
       "POST" ->
         do_post(client, conn, url)
+      "PUT" ->
+        do_put(client, conn, url)
     end
   end
 
@@ -32,6 +34,15 @@ defmodule Nug.RequestServer do
   def do_post(client, conn, url) do
     {:ok, body, _} = Plug.Conn.read_body(conn)
     case Tesla.post(client, url, body) do
+      {:ok, env} ->
+        env_to_conn(env, conn)
+    end
+  end
+
+  def do_put(client, conn, url) do
+    {:ok, body, _} = Plug.Conn.read_body(conn)
+
+    case Tesla.put(client, url, body) do
       {:ok, env} ->
         env_to_conn(env, conn)
     end

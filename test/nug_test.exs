@@ -1,5 +1,5 @@
 defmodule NugTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest Nug
 
   test "Scrubs sensitive headers" do
@@ -72,7 +72,7 @@ defmodule NugTest do
   end
 
 
-  test "Request body" do
+  test "POST with body" do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://postman-echo.com/post",
@@ -89,4 +89,24 @@ defmodule NugTest do
 
     Nug.RequestHandler.close(pid)
   end
+
+  test "PUT with body" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        upstream_url: "https://postman-echo.com/put",
+        recording_file: "test/fixtures/put-with-body.json"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response} = Tesla.put(client, "/", %{test: "PUT"})
+
+    assert response.status == 200
+
+    Nug.RequestHandler.close(pid)
+  end
+
+
 end
