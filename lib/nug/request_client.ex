@@ -29,35 +29,26 @@ end
 # TODO -> Move to own file
 defmodule Nug.RequestInterceptor do
   @behaviour Tesla.Middleware
+  alias Nug.Recording
 
   def call(env, next, intercept_options) do
-    filename = Keyword.fetch!(intercept_options, :filename)
+    handler = Keyword.fetch!(intercept_options, :handler)
 
-    File.mkdir_p(Path.join(["test", "fixtures"]))
-
-    qualified_filename = Path.join(["test", "fixtures", filename])
-
-    case File.read(qualified_filename) do
-      {:ok, json} ->
-        file_to_tesla(json)
-
-      {:error, :enoent} ->
-        run_and_store(env, next, intercept_options, qualified_filename)
+    case Recording.find(env, handler) do
+      {:ok, response} -> file_to_tesla(response)
+      nil -> run_and_store(env, next, handler)
     end
   end
 
-  def run_and_store(env, next, _intercept_options, filename) do
+  def run_and_store(env, next, handler) do
     with {:ok, response} <- Tesla.run(env, next),
-         {:ok, scrubbed} <- scrub_fields(response),
-         {:ok, encoded} <- Jason.encode(scrubbed, pretty: true),
-         :ok <- File.write(filename, encoded) do
+         :ok <- Nug.Recording.add(response, handler) do
       {:ok, response}
     end
   end
 
   def file_to_tesla(json) do
-    with {:ok, raw} <- Jason.decode(json, keys: :atoms),
-         normalized <- normalize(raw),
+    with normalized <- normalize(json),
          struct <- struct(Tesla.Env, normalized) do
       Tesla.run(struct, [])
     end
@@ -66,20 +57,6 @@ defmodule Nug.RequestInterceptor do
   def normalize(raw_env) do
     Map.update(raw_env, :headers, [], fn list ->
       Enum.map(list, fn [key, value] -> {key, value} end)
-    end)
-  end
-
-  def scrub_fields(%Tesla.Env{} = env) do
-    scrubbed = Keyword.update(env.opts, :req_headers, [], &scrub_list/1)
-    {:ok, Map.put(env, :opts, scrubbed)}
-  end
-
-  def scrub_list(list) do
-    Enum.map(list, fn {key, _value} = pair ->
-      case String.match?(key, ~r/authorization/) do
-        true -> {key, "**SCRUBBED**"}
-        false -> pair
-      end
     end)
   end
 end
