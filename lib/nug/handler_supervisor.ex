@@ -7,14 +7,11 @@ defmodule Nug.HandlerSupervisor do
 
   @impl true
   def init(_) do
-    DynamicSupervisor.init(
-      strategy: :one_for_one
-    )
+    DynamicSupervisor.init(strategy: :one_for_one)
   end
 
   def start_child(%Nug.Handler{} = options) do
     child_spec = {Nug.RequestHandler, options}
     DynamicSupervisor.start_child(__MODULE__, child_spec)
   end
-
 end

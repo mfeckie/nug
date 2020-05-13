@@ -71,7 +71,6 @@ defmodule NugTest do
     Nug.RequestHandler.close(pid)
   end
 
-
   test "POST with body" do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
@@ -126,7 +125,6 @@ defmodule NugTest do
     Nug.RequestHandler.close(pid)
   end
 
-
   test "DELETE" do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
@@ -144,6 +142,4 @@ defmodule NugTest do
 
     Nug.RequestHandler.close(pid)
   end
-
-
 end
