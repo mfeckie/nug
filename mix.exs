@@ -22,6 +22,7 @@ defmodule Nug.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:credo, "1.4.0", only: [:dev, :test], runtime: false},
       {:plug_cowboy, "2.2.1"},
       {:cowlib, "2.3.0", override: true},
       {:jason, "1.2.1"},
