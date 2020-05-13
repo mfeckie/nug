@@ -17,11 +17,21 @@ defmodule Nug.RequestServer do
     case method do
       "GET" ->
         do_get(client, conn, url)
+      "POST" ->
+        do_post(client, conn, url)
     end
   end
 
   def do_get(client, conn, url) do
     case Tesla.get(client, url) do
+      {:ok, env} ->
+        env_to_conn(env, conn)
+    end
+  end
+
+  def do_post(client, conn, url) do
+    {:ok, body, _} = Plug.Conn.read_body(conn)
+    case Tesla.post(client, url, body) do
       {:ok, env} ->
         env_to_conn(env, conn)
     end
