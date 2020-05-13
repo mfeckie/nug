@@ -7,7 +7,9 @@ defmodule Nug.MixProject do
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      package: package(),
+      description: description()
     ]
   end
 
@@ -30,6 +32,17 @@ defmodule Nug.MixProject do
       {:tesla, "1.3.2"},
       {:mint, "1.0.0"},
       {:castore, "0.1.5"}
+    ]
+  end
+
+  defp description do
+    "A HTTP request proxy library for testing in Elixir"
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/mfeckie/nug"}
     ]
   end
 end
