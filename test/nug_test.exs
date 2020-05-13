@@ -41,7 +41,49 @@ defmodule NugTest do
 
     client = TestClient.new("http://#{address}")
 
-    {:ok, response} = Tesla.get(client, "/foo/bar/baz", query: [q: "hello"], timeout: :infinity)
+    {:ok, response} = Tesla.get(client, "/foo/bar/baz", query: [q: "hello"])
+
+    assert response.status == 200
+
+    Nug.RequestHandler.close(pid)
+  end
+
+  test "Multiple requests" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        upstream_url: "https://duckduckgo.com",
+        recording_file: "test/fixtures/multiple.json"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response1} = Tesla.get(client, "/", query: [q: "hello"])
+    {:ok, response2} = Tesla.get(client, "/", query: [q: "goodbye"])
+
+    assert response1.status == 200
+    assert response1.query == [q: "hello"]
+
+    assert response2.status == 200
+    assert response2.query == [q: "goodbye"]
+
+    Nug.RequestHandler.close(pid)
+  end
+
+
+  test "Request body" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        upstream_url: "https://postman-echo.com/post",
+        recording_file: "test/fixtures/post-with-body.json"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response} = Tesla.post(client, "/", %{test: "test"})
 
     assert response.status == 200
 
