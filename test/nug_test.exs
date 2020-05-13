@@ -108,5 +108,25 @@ defmodule NugTest do
     Nug.RequestHandler.close(pid)
   end
 
+  test "PATCH with body" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        upstream_url: "https://postman-echo.com/patch",
+        recording_file: "test/fixtures/patch-with-body.json"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response} = Tesla.patch(client, "/", %{test: "PATCH"})
+
+    assert response.status == 200
+
+    Nug.RequestHandler.close(pid)
+  end
+
+
+
 
 end
