@@ -23,7 +23,7 @@ defmodule Nug.Recording do
     end
   end
 
-  def add(env = %Tesla.Env{}, %Nug.Handler{} = handler) do
+  def add(%Tesla.Env{} = env, %Nug.Handler{} = handler) do
     scrub_fields(env)
     |> Nug.RequestHandler.add_recording(handler.pid)
   end

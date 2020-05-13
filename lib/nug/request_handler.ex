@@ -85,15 +85,15 @@ defmodule Nug.RequestHandler do
   end
 
   # Ref -> https://github.com/PSPDFKit-labs/bypass/blob/master/lib/bypass/instance.ex#L373-L402
-  defp so_reuseport() do
+  defp so_reuseport do
     case :os.type() do
       {:unix, :linux} -> [{:raw, 1, 15, <<1::32-native>>}]
-      {:unix, :darwin} -> [{:raw, 65535, 512, <<1::32-native>>}]
+      {:unix, :darwin} -> [{:raw, 65_535, 512, <<1::32-native>>}]
       _ -> []
     end
   end
 
-  defp listen_ip() do
+  defp listen_ip do
     Application.get_env(:nug, :ip, {127, 0, 0, 1})
   end
 
