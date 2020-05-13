@@ -127,6 +127,23 @@ defmodule NugTest do
   end
 
 
+  test "DELETE" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        upstream_url: "https://postman-echo.com/delete",
+        recording_file: "test/fixtures/delete.json"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response} = Tesla.delete(client, "/")
+
+    assert response.status == 200
+
+    Nug.RequestHandler.close(pid)
+  end
 
 
 end

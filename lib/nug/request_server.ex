@@ -26,6 +26,16 @@ defmodule Nug.RequestServer do
 
       "PATCH" ->
         do_patch(client, conn, url)
+
+      "DELETE" ->
+        do_delete(client, conn, url)
+    end
+  end
+
+  def do_delete(client, conn, url) do
+    case Tesla.delete(client, url) do
+      {:ok, env} ->
+        env_to_conn(env, conn)
     end
   end
 
