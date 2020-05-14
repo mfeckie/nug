@@ -4,7 +4,7 @@ defmodule Nug.MixProject do
   def project do
     [
       app: :nug,
-      version: "0.2.3",
+      version: "0.3.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -28,10 +28,10 @@ defmodule Nug.MixProject do
       {:ex_doc, "~> 0.22.0", only: :dev, runtime: false},
       {:plug_cowboy, "~> 2.0"},
       {:cowlib, "~> 2.0"},
+      {:idna, "~> 6.0"},
       {:jason, "~> 1.2"},
       {:tesla, "~> 1.3"},
-      {:mint, "~> 1.0"},
-      {:castore, "~> 0.1.5"}
+      {:gun, "~> 1.0"}
     ]
   end
 
