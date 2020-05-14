@@ -3,11 +3,11 @@
     "request": null,
     "response": {
       "__module__": "Elixir.Tesla",
-      "body": "{\"args\":{},\"data\":{},\"files\":{},\"form\":{},\"headers\":{\"x-forwarded-proto\":\"https\",\"x-forwarded-port\":\"443\",\"host\":\"postman-echo.com\",\"x-amzn-trace-id\":\"Root=1-5ebb7d95-dc51099642c14d148d5566d0\",\"content-length\":\"14\",\"user-agent\":\"mint/1.0.0\"},\"json\":null,\"url\":\"https://postman-echo.com/put/\"}",
+      "body": "{\"args\":{},\"data\":{\"test\":\"PUT\"},\"files\":{},\"form\":{},\"headers\":{\"x-forwarded-proto\":\"https\",\"x-forwarded-port\":\"443\",\"host\":\"127.0.0.1\",\"x-amzn-trace-id\":\"Root=1-5ebcd5c8-17730cd09a9300d08268f770\",\"content-length\":\"14\",\"content-type\":\"application/json\"},\"json\":{\"test\":\"PUT\"},\"url\":\"https://127.0.0.1/put/\"}",
       "headers": [
         [
           "date",
-          "Wed, 13 May 2020 04:54:45 GMT"
+          "Thu, 14 May 2020 05:23:20 GMT"
         ],
         [
           "content-type",
@@ -15,11 +15,11 @@
         ],
         [
           "content-length",
-          "292"
+          "308"
         ],
         [
           "etag",
-          "W/\"124-NVWNdW3wfs1dfMM+iiYFhuY9iCg\""
+          "W/\"134-GxbD8hHAxutDyCpvouwVkqO6ltg\""
         ],
         [
           "vary",
@@ -27,14 +27,27 @@
         ],
         [
           "set-cookie",
-          "sails.sid=s%3A4xhmYR2B_KWuqqKYplmUuZ6nD_1FDPTa.jhx7JZZFgmk36EXw%2BN%2B8ID56BcZYRsdeJkUXXeR3SWs; Path=/; HttpOnly"
+          "sails.sid=s%3AL0GOJjH2jzb-7ryIAILrNSkeiO91bYsy.2LYn70ZIXlfPe0xVKUAnNcvxix4qK%2FYvWF5aVsxaCqo; Path=/; HttpOnly"
         ]
       ],
       "method": "put",
       "opts": [
         [
           "req_headers",
-          []
+          [
+            [
+              "content-length",
+              "14"
+            ],
+            [
+              "content-type",
+              "application/json"
+            ],
+            [
+              "host",
+              "127.0.0.1:53308"
+            ]
+          ]
         ],
         [
           "req_body",

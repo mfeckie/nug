@@ -5,7 +5,7 @@ defmodule TestClient do
       Tesla.Middleware.JSON
     ]
 
-    Tesla.client(middleware, Tesla.Adapter.Mint)
+    Tesla.client(middleware, {Tesla.Adapter.Gun, timeout: 30_000})
   end
 end
 

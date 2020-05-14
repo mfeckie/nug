@@ -3,11 +3,11 @@
     "request": null,
     "response": {
       "__module__": "Elixir.Tesla",
-      "body": "{\"args\":{},\"data\":{},\"files\":{},\"form\":{},\"headers\":{\"x-forwarded-proto\":\"https\",\"x-forwarded-port\":\"443\",\"host\":\"postman-echo.com\",\"x-amzn-trace-id\":\"Root=1-5ebb8b20-0a87ea4c560bd65ef0af96a6\",\"user-agent\":\"mint/1.0.0\"},\"json\":null,\"url\":\"https://postman-echo.com/delete/\"}",
+      "body": "{\"args\":{},\"data\":{},\"files\":{},\"form\":{},\"headers\":{\"x-forwarded-proto\":\"https\",\"x-forwarded-port\":\"443\",\"host\":\"127.0.0.1\",\"x-amzn-trace-id\":\"Root=1-5ebcd5e3-0934ba10c25772181f71fdd0\"},\"json\":null,\"url\":\"https://127.0.0.1/delete/\"}",
       "headers": [
         [
           "date",
-          "Wed, 13 May 2020 05:52:32 GMT"
+          "Thu, 14 May 2020 05:23:47 GMT"
         ],
         [
           "content-type",
@@ -15,11 +15,11 @@
         ],
         [
           "content-length",
-          "273"
+          "233"
         ],
         [
           "etag",
-          "W/\"111-bLSvwRtLwibwPEOQL7DSHwTS5Gs\""
+          "W/\"e9-zEquJjQGc2hqv2kgjY5PnpF0XQo\""
         ],
         [
           "vary",
@@ -27,14 +27,19 @@
         ],
         [
           "set-cookie",
-          "sails.sid=s%3AChRn3hEiSQ11gzRXuSQMdQ-cXGY7ODK6.6i8QONCV%2Fpy2%2Bi95MiF0hv7GjlMJOoHVJ6N8Ro4YbjE; Path=/; HttpOnly"
+          "sails.sid=s%3ARQ0UBQFtH7DjYNfiaulGWOVBdHb8zRAL.eDqgEEmRi2%2Bj5VCuELm5pPOdtqWXZwQ6%2BpuIpVka8oY; Path=/; HttpOnly"
         ]
       ],
       "method": "delete",
       "opts": [
         [
           "req_headers",
-          []
+          [
+            [
+              "host",
+              "127.0.0.1:53372"
+            ]
+          ]
         ],
         [
           "req_body",
