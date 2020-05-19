@@ -1,6 +1,8 @@
 defmodule Nug.RequestClient do
   def new(headers \\ [], intercept_options)
       when is_list(intercept_options) do
+    headers = Enum.reject(headers, fn {name, _value} -> name == "host" end)
+
     middleware = [
       Tesla.Middleware.Logger,
       {Tesla.Middleware.Headers, headers},
