@@ -3,12 +3,12 @@ defmodule NugTest do
   doctest Nug
 
   test "Scrubs sensitive headers" do
-    path = Path.join(["test", "fixtures", "scrubbed.json"])
+    path = Path.join(["test", "fixtures", "scrubbed.fixture"])
 
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://duckduckgo.com",
-        recording_file: "test/fixtures/scrubbed.json"
+        recording_file: "test/fixtures/scrubbed.fixture"
       })
 
     client =
@@ -20,21 +20,18 @@ defmodule NugTest do
 
     Nug.RequestHandler.close(pid)
 
-    stored = Jason.decode!(File.read!(path), keys: :atoms)
+    stored = :erlang.binary_to_term(File.read!(path))
 
     [%{response: response}] = stored
 
-    assert response.opts == [
-             ["req_headers", [["authorization", "**SCRUBBED**"]]],
-             ["req_body", nil]
-           ]
+    assert response.opts == [{:req_headers, [{"authorization", "**SCRUBBED**"}]}, {:req_body, nil}]
   end
 
   test "Takes original URL to set up proxy" do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://duckduckgo.com",
-        recording_file: "test/fixtures/proxy.json"
+        recording_file: "test/fixtures/proxy.fixture"
       })
 
     address = Nug.RequestHandler.listen_address(pid)
@@ -52,7 +49,7 @@ defmodule NugTest do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://duckduckgo.com",
-        recording_file: "test/fixtures/multiple.json"
+        recording_file: "test/fixtures/multiple.fixture"
       })
 
     address = Nug.RequestHandler.listen_address(pid)
@@ -75,7 +72,7 @@ defmodule NugTest do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://postman-echo.com/post",
-        recording_file: "test/fixtures/post-with-body.json"
+        recording_file: "test/fixtures/post-with-body.fixture"
       })
 
     address = Nug.RequestHandler.listen_address(pid)
@@ -93,7 +90,7 @@ defmodule NugTest do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://postman-echo.com/put",
-        recording_file: "test/fixtures/put-with-body.json"
+        recording_file: "test/fixtures/put-with-body.fixture"
       })
 
     address = Nug.RequestHandler.listen_address(pid)
@@ -111,7 +108,7 @@ defmodule NugTest do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://postman-echo.com/patch",
-        recording_file: "test/fixtures/patch-with-body.json"
+        recording_file: "test/fixtures/patch-with-body.fixture"
       })
 
     address = Nug.RequestHandler.listen_address(pid)
@@ -129,7 +126,7 @@ defmodule NugTest do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
         upstream_url: "https://postman-echo.com/delete",
-        recording_file: "test/fixtures/delete.json"
+        recording_file: "test/fixtures/delete.fixture"
       })
 
     address = Nug.RequestHandler.listen_address(pid)

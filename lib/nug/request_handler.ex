@@ -62,8 +62,7 @@ defmodule Nug.RequestHandler do
     case File.read(handler.recording_file) do
       {:ok, file} ->
         recordings =
-          Jason.decode!(file, keys: :atoms)
-          |> Enum.map(&struct(Nug.Recording, &1))
+          :erlang.binary_to_term(file)
 
         Map.put(handler, :recordings, recordings)
 

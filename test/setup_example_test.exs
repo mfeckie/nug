@@ -3,7 +3,7 @@ defmodule Nug.SetupExampleTest do
   use Nug
 
   test "With macro" do
-    with_proxy("https://duckduckgo.com", "test/fixtures/with-macro.json") do
+    with_proxy("https://duckduckgo.com", "test/fixtures/with-macro.fixture") do
       client = TestClient.new("http://#{address}")
 
       {:ok, response} = Tesla.get(client, "/", query: [q: "hello"])

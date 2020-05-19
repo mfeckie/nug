@@ -29,7 +29,7 @@ defmodule Nug.Recording do
   end
 
   def save(%Nug.Handler{} = handler) do
-    encoded = Jason.encode!(handler.recordings, pretty: true)
+    encoded = :erlang.term_to_binary(handler.recordings)
     File.write(handler.recording_file, encoded)
   end
 
