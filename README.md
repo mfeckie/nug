@@ -7,7 +7,7 @@ The package can be installed by adding `nug` to your list of dependencies in `mi
 ```elixir
 def deps do
   [
-    {:nug, "~> 0.2}
+    {:nug, "~> 0.3}
   ]
 end
 ```
