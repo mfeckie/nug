@@ -9,7 +9,7 @@ defmodule Nug do
   end
 
   @doc ~S"""
-  with_proxy is convenience macro that will handle setup and teardown of your proxy server.
+  `with_proxy` is convenience macro that will handle setup and teardown of your proxy server.
 
   # Usage
 
