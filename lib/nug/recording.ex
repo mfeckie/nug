@@ -11,10 +11,11 @@ defmodule Nug.Recording do
     nil
   end
 
-  def find(%Tesla.Env{url: url}, %Nug.Handler{recordings: recordings} = _handler) do
+  def find(%Tesla.Env{url: url, method: method}, %Nug.Handler{recordings: recordings} = _handler) do
     found =
       Enum.find(recordings, fn %Nug.Recording{response: response} ->
         response.url == url
+        && response.method == method
       end)
 
     case found do

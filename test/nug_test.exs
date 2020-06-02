@@ -68,6 +68,27 @@ defmodule NugTest do
     Nug.RequestHandler.close(pid)
   end
 
+  test "Multiple requests different method" do
+    {:ok, pid} =
+      Nug.HandlerSupervisor.start_child(%Nug.Handler{
+        upstream_url: "https://postman-echo.com",
+        recording_file: "test/fixtures/multiple-request-different-method.fixture"
+      })
+
+    address = Nug.RequestHandler.listen_address(pid)
+
+    client = TestClient.new("http://#{address}")
+
+    {:ok, response1} = Tesla.get(client, "/get")
+    {:ok, response2} = Tesla.post(client, "/post", %{test: "test"})
+
+    assert response1.status == 200
+
+    assert response2.status == 200
+
+    Nug.RequestHandler.close(pid)
+  end
+
   test "POST with body" do
     {:ok, pid} =
       Nug.HandlerSupervisor.start_child(%Nug.Handler{
