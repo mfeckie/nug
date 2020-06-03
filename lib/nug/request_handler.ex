@@ -102,7 +102,7 @@ defmodule Nug.RequestHandler do
 
   def handle_call(:listen_address, _from, %Nug.Handler{listen_ip: ip, port: port} = state) do
     string_ip = Tuple.to_list(ip) |> Enum.join(".")
-    listen_address = string_ip <> ":#{port}"
+    listen_address = "http://" <> string_ip <> ":#{port}"
     {:reply, listen_address, state}
   end
 

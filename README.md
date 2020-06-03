@@ -32,7 +32,7 @@ defmodule TestCase do
   test "get response from API" do
     with_proxy("https://www.example.com", "test/fixtures/example.fixture") do
       # address is a variable that is created by the macro
-      client = TestClient.new("http://#{address}")
+      client = TestClient.new(address)
 
       {:ok, response} = Tesla.get(client, "/", query: [q: "hello"])
 

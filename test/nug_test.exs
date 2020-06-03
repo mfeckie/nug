@@ -36,7 +36,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response} = Tesla.get(client, "/foo/bar/baz", query: [q: "hello"])
 
@@ -54,7 +54,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response1} = Tesla.get(client, "/", query: [q: "hello"])
     {:ok, response2} = Tesla.get(client, "/", query: [q: "goodbye"])
@@ -77,7 +77,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response1} = Tesla.get(client, "/get")
     {:ok, response2} = Tesla.post(client, "/post", %{test: "test"})
@@ -98,7 +98,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response} = Tesla.post(client, "/", %{test: "test"})
 
@@ -116,7 +116,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response} = Tesla.put(client, "/", %{test: "PUT"})
 
@@ -134,7 +134,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response} = Tesla.patch(client, "/", %{test: "PATCH"})
 
@@ -152,7 +152,7 @@ defmodule NugTest do
 
     address = Nug.RequestHandler.listen_address(pid)
 
-    client = TestClient.new("http://#{address}")
+    client = TestClient.new(address)
 
     {:ok, response} = Tesla.delete(client, "/")
 
