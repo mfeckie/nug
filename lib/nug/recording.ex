@@ -14,8 +14,8 @@ defmodule Nug.Recording do
   def find(%Tesla.Env{url: url, method: method}, %Nug.Handler{recordings: recordings} = _handler) do
     found =
       Enum.find(recordings, fn %Nug.Recording{response: response} ->
-        response.url == url
-        && response.method == method
+        response.url == url &&
+          response.method == method
       end)
 
     case found do
@@ -31,6 +31,7 @@ defmodule Nug.Recording do
 
   def save(%Nug.Handler{} = handler) do
     encoded = :erlang.term_to_binary(handler.recordings)
+    unless File.exists?(path = Path.dirname(handler.recording_file)), do: File.mkdir_p!(path)
     File.write(handler.recording_file, encoded)
   end
 
