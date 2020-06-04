@@ -51,4 +51,24 @@ defmodule Nug do
       end
     end
   end
+
+  defmacro with_proxy(builder, upstream_url, recording_file, test_body) do
+    test_file_name = "test/fixtures/#{recording_file}"
+
+    quote do
+      {:ok, pid} =
+        Nug.HandlerSupervisor.start_child(%Nug.Handler{
+          upstream_url: unquote(upstream_url),
+          recording_file: unquote(test_file_name)
+        })
+
+      var!(client) = unquote(builder).(Nug.RequestHandler.listen_address(pid))
+
+      try do
+        unquote(test_body)
+      after
+        Nug.RequestHandler.close(pid)
+      end
+    end
+  end
 end
