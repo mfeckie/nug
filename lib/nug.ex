@@ -2,8 +2,16 @@ defmodule Nug do
   @moduledoc """
   Provides a macro for using Nug in tests
   """
-  defmacro __using__(_opts) do
+  defmacro __using__([]) do
     quote do
+      import Nug
+    end
+  end
+
+  defmacro __using__(opts) do
+    quote do
+      @upstream_url Keyword.fetch!(unquote(opts), :upstream_url)
+      @client_builder Keyword.fetch!(unquote(opts), :client_builder)
       import Nug
     end
   end
@@ -63,6 +71,32 @@ defmodule Nug do
         })
 
       var!(client) = unquote(builder).(Nug.RequestHandler.listen_address(pid))
+      # Avoid unused variable warnings as the client is just a convenience
+      _ = var!(client)
+
+      try do
+        unquote(test_body)
+      after
+        Nug.RequestHandler.close(pid)
+      end
+    end
+  end
+
+  defmacro with_proxy(recording_file, do: test_body) do
+    test_file_name = "test/fixtures/#{recording_file}"
+    upstream_url = Module.get_attribute(__CALLER__.module, :upstream_url)
+    client_builder = Module.get_attribute(__CALLER__.module, :client_builder)
+
+    quote do
+      {:ok, pid} =
+        Nug.HandlerSupervisor.start_child(%Nug.Handler{
+          upstream_url: unquote(upstream_url),
+          recording_file: unquote(test_file_name)
+        })
+
+      var!(client) = unquote(client_builder).(Nug.RequestHandler.listen_address(pid))
+      # Avoid unused variable warnings as the client is just a convenience
+      _ = var!(client)
 
       try do
         unquote(test_body)
