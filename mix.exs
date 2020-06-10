@@ -9,7 +9,8 @@ defmodule Nug.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
-      description: description()
+      description: description(),
+      elixirc_paths: elixirc_paths(Mix.env()),
     ]
   end
 
@@ -45,4 +46,8 @@ defmodule Nug.MixProject do
       links: %{"GitHub" => "https://github.com/mfeckie/nug"}
     ]
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test/support/test_helpers"]
+  defp elixirc_paths(_), do: ["lib"]
 end
